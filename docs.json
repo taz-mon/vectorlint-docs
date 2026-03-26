@@ -1,0 +1,112 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "VectorLint",
+  "colors": {
+    "primary": "#7C3AED",
+    "light": "#A78BFA",
+    "dark": "#5B21B6"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get started",
+            "pages": [
+              "index",
+              "quickstart",
+              "installation"
+            ]
+          },
+          {
+            "group": "Setup & configuration",
+            "pages": [
+              "setup/configuration",
+              "setup/llm-providers",
+              "setup/style-guide"
+            ]
+          },
+          {
+            "group": "Creating rules",
+            "pages": [
+              "rules/overview",
+              "rules/check-rules",
+              "rules/judge-rules",
+              "rules/rule-packs"
+            ]
+          },
+          {
+            "group": "CI/CD integration",
+            "pages": [
+              "cicd/github-actions",
+              "cicd/lint-commands"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/cli",
+              "reference/env-variables",
+              "reference/configuration-schema"
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "GitHub",
+          "href": "https://github.com/TRocket-Labs/vectorlint",
+          "icon": "github"
+        },
+        {
+          "anchor": "npm",
+          "href": "https://www.npmjs.com/package/vectorlint",
+          "icon": "box"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/vectorlint.png",
+  "dark": "/logo/vectorlint.png"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/TRocket-Labs/vectorlint"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Get started",
+      "href": "https://www.npmjs.com/package/vectorlint"
+    }
+  },
+  "contextual": {
+    "options": [
+      "copy",
+      "view",
+      "chatgpt",
+      "claude",
+      "perplexity",
+      "cursor",
+      "vscode"
+    ]
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/TRocket-Labs/vectorlint"
+    }
+  }
+}
