@@ -34,18 +34,8 @@
             "pages": [
               "configuration",
               "project-config",
-              "app-config",
               "style-guide",
-              "llm-providers"
-            ]
-          },
-          {
-            "group": "Rules",
-            "pages": [
-              "rule-anatomy",
-              "check-rules",
-              "judge-rules",
-              "target-specification",
+              "llm-providers",
               "presets"
             ]
           },
