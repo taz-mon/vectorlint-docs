@@ -3,16 +3,17 @@ title: "Configuration overview"
 description: "Understand VectorLint's configuration files and how they work together."
 ---
 
-VectorLint uses two configuration files. Running `vectorlint init` creates both automatically.
-
- File | Location | Purpose | Required |
+VectorLint is configured through four files. Running `vectorlint init` creates the first two automatically.
+ 
+| File | Location | Purpose | Required |
 |------|----------|---------|----------|
-| `.vectorlint.ini` | Project root | File patterns, rule packs, strictness overrides | Yes |
-| `config.toml` | `~/.vectorlint/` | LLM provider API keys — applies globally across projects | Yes |
-| `VECTORLINT.md` | Project root | Global style instructions in plain language — prepended to every evaluation | Optional |
+| `VECTORLINT.md` | Project root | Global style instructions in plain language — prepended to every evaluation | Required for zero-config mode |
+| `.vectorlint.ini` | Project root | File patterns, rule packs, strictness overrides | Required for rule packs and file-specific configuration |
+| `config.toml` | `~/.vectorlint/` | LLM provider API keys — applies globally across projects | Always required |
 | Rule pack files | `RulesPath` directory | Targeted LLM prompts for specific checks — for advanced content quality workflows | Optional |
 
-For more information about the `VECTORLINT.md` and rule pack files, see [Defining your style rules](./style-guide).
+For more information about integrating your style guide into the `VECTORLINT.md` file, see [Your first style check](./initial-style-check).
+For more information about rule pack files, see [Defining your style rules](./style-guide).
 
 ---
 

@@ -7,7 +7,7 @@ VectorLint gives you two ways to bring your style guide into evaluations. Unders
 
 - **`VECTORLINT.md` file**: the global style instructions in plain language. Create this file from your style guide and place it in your project root. VectorLint prepends its contents to the system prompt for every evaluation, making your tone, terminology, and baseline standards apply across all rules automatically. Use it for broad, always-applicable guidance. See [Project Configuration](/project-config) for details.
 
-- **Rule pack files**: the advanced and targeted LLM prompts for specific context and rule checking. For each prompt, create a separate markdown file as described below. Each file is a structured prompt that instructs the LLM to evaluate content against one specific standard: grammar, headline quality, AI pattern detection, technical accuracy, and so on. Rules are organized into packs and mapped to file patterns in `.vectorlint.ini`. Rule pack files live in subdirectories under `RulesPath` — see [File Structure Reference](#file-structure-reference) below.
+- **Rule pack files**: the targeted LLM prompts for specific checks. Create these as separate Markdown files as described below. Each file is a structured prompt that instructs the LLM to evaluate content against one specific standard: grammar, headline quality, AI pattern detection, technical accuracy, and so on. Rules are organized into packs and mapped to file patterns in `.vectorlint.ini`. Rule pack files live in subdirectories under `RulesPath` — see [File Structure Reference](#file-structure-reference) below.
 
 If you can write a prompt for it, you can lint for it with VectorLint.
 
@@ -22,7 +22,9 @@ Keep this file concise. VectorLint emits a warning if the file exceeds approxima
 If your team already has a style guide, use the following prompt with any capable LLM to convert it into a `VECTORLINT.md`-optimized file. Paste your full style guide after the prompt.
 
 ```
-You are a technical writing rules extractor. Your job is to convert a full technical writing style guide into a compact VECTORLINT.md file suitable for use as a VectorLint global style guide.
+You are a technical writing rules extractor. Your job is to convert a
+full technical writing style guide into a compact VECTORLINT.md file
+suitable for use as a VectorLint global style guide.
 
 Rules for extraction:
 - Output imperative rules only. No explanations, rationale, or examples.
@@ -35,7 +37,8 @@ Rules for extraction:
 - Target output: under 600 words / ~800 tokens.
 - Do not include a preamble or closing statement.
 
-Style guide to extract from: [PASTE YOUR STYLE GUIDE HERE]
+Style guide to extract from:
+[PASTE YOUR STYLE GUIDE HERE]
 ```
 
 <Tip>
@@ -46,7 +49,7 @@ To help you get started, the VectorLint docs repository includes an [example VEC
 
 ## Creating rule pack files
 
-Rule pack files are optional markdown files, each containing an advanced, targeted LLM prompt for a specific check unique to your content which your style guide doesn't cover. Unlike `VECTORLINT.md`, which sets broad context for every evaluation, rule pack files enforce precise, measurable criteria — grammar, headline quality, AI pattern detection, technical accuracy, and so on. You can create as many as your content workflow requires and organize them into packs mapped to specific file patterns in `.vectorlint.ini`.
+Rule pack files are optional Markdown files, each containing a targeted LLM prompt for a specific check. Unlike `VECTORLINT.md`, which sets broad context for every evaluation, rule pack files enforce precise, measurable criteria — grammar, headline quality, AI pattern detection, technical accuracy, and so on. You can create as many as your content workflow requires and organize them into packs mapped to specific file patterns in `.vectorlint.ini`.
 
 Each rule file has two parts: YAML frontmatter that configures how VectorLint handles the result, and a Markdown body that is the actual prompt sent to the LLM.
 
@@ -199,50 +202,6 @@ target:
 
 **When `required: false` (or omitted):** If the pattern doesn't match, VectorLint evaluates the full document instead.
 
-## Writing Effective Prompts
-
-The Markdown body of your rule file is the prompt sent to the LLM. Specificity here directly determines evaluation quality.
-
-**Be explicit about what you're looking for:**
-
-```markdown
-# ❌ Vague
-Check if the headline is good.
-
-# ✅ Specific
-You are a headline evaluator for developer blog posts. Assess whether the headline:
-
-1. Clearly communicates a specific benefit to the reader
-2. Uses natural, conversational language (avoid buzzwords like "leverage" or "unlock")
-3. Creates curiosity without resorting to clickbait
-```
-
-**Give the LLM domain context:**
-
-```markdown
-## CONTEXT BANK
-
-**Audience**: Software engineers, DevOps practitioners, and QA professionals who value:
-- Technical precision over marketing language
-- Practical examples over theory
-- Direct answers over lengthy preambles
-```
-
-**Use meaningful weights** to reflect real-world importance:
-
-```yaml
-criteria:
-  - name: Technical Accuracy
-    id: TechnicalAccuracy
-    weight: 40       # Critical — factual errors erode trust
-  - name: Readability
-    id: Readability
-    weight: 30       # Important — but recoverable in editing
-  - name: SEO
-    id: SEO
-    weight: 10       # Nice to have
-```
-
 ## File Structure Reference
 
 ```
@@ -317,5 +276,6 @@ Pervasive AI patterns throughout.
 
 ## Next Steps
 
+- [Customize style rules](/customize-style-rules) — learn how to write effective LLM prompts for your rule pack files
 - [Project Configuration](/project-config) — assign rule packs to file patterns
 - [LLM Providers](/llm-providers) — configure the model used for evaluations
