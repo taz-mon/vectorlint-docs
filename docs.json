@@ -14,35 +14,52 @@
         "tab": "Documentation",
         "groups": [
           {
+            "group": "Overview",
+            "pages": [
+              "introduction",
+              "how-it-works",
+              "use-cases"
+            ]
+          },
+          {
             "group": "Get started",
             "pages": [
-              "index",
               "quickstart",
-              "installation"
+              "installation",
+              "initial-style-check"
             ]
           },
           {
-            "group": "Setup & configuration",
+            "group": "Configuration",
             "pages": [
-              "setup/configuration",
-              "setup/llm-providers",
-              "setup/style-guide"
+              "configuration",
+              "project-config",
+              "style-guide",
+              "customize-style-rules",
+              "llm-providers",
+              "presets"
             ]
           },
           {
-            "group": "Creating rules",
+            "group": "Quality scoring",
             "pages": [
-              "rules/overview",
-              "rules/check-rules",
-              "rules/judge-rules",
-              "rules/rule-packs"
+              "quality-scoring",
+              "density-scoring",
+              "rubric-scoring"
             ]
           },
           {
-            "group": "CI/CD integration",
+            "group": "For teams & organizations",
             "pages": [
-              "cicd/github-actions",
-              "cicd/lint-commands"
+              "ci-integration",
+              "team-rule-packs",
+              "false-positive-tuning"
+            ]
+          },
+          {
+            "group": "Best practices",
+            "pages": [
+              "best-practices"
             ]
           }
         ]
@@ -53,9 +70,11 @@
           {
             "group": "Reference",
             "pages": [
-              "reference/cli",
-              "reference/env-variables",
-              "reference/configuration-schema"
+              "cli-reference",
+              "configuration-schema",
+              "env-variables",
+              "frontmatter-fields",
+              "troubleshooting"
             ]
           }
         ]
@@ -77,8 +96,8 @@
     }
   },
   "logo": {
-    "light": "/logo/vectorlint.png",
-  "dark": "/logo/vectorlint.png"
+    "light": "/logo/logo.svg",
+    "dark": "/logo/logo.svg"
   },
   "navbar": {
     "links": [

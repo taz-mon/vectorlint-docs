@@ -1,0 +1,269 @@
+---
+title: "Setup & configuration"
+description: "Install VectorLint, configure your LLM provider, and run your first content check."
+---
+
+## Installation
+
+### Option 1: Global install
+
+Install VectorLint globally from npm:
+
+```bash
+npm install -g vectorlint
+```
+
+Verify the installation:
+
+```bash
+vectorlint --help
+```
+
+### Option 2: Zero-install with npx
+
+Run VectorLint without installing it:
+
+```bash
+npx vectorlint path/to/article.md
+```
+
+<Note>
+  VectorLint requires Node.js. Use an LTS release for best compatibility.
+</Note>
+
+---
+
+## Initialize your project
+
+VectorLint provides two initialization modes depending on how much configuration you need.
+
+### Zero-config mode (fastest)
+
+If you want to check content against a single style guide with no additional setup:
+
+```bash
+vectorlint init --quick
+```
+
+This creates a `VECTORLINT.md` file in your project root where you paste your style guide. VectorLint automatically creates a "Style Guide Compliance" rule from it and evaluates your content against it.
+
+Run a check:
+
+```bash
+vectorlint doc.md
+```
+
+### Full configuration
+
+For a comprehensive setup with custom rule packs and file-specific targets:
+
+```bash
+vectorlint init
+```
+
+This creates two files:
+
+| File | Location | Purpose |
+|------|----------|---------|
+| `.vectorlint.ini` | Project root | Project-specific settings, file patterns, rule overrides |
+| `config.toml` | `~/.vectorlint/` | Global settings — LLM provider API keys |
+
+---
+
+## Configure your LLM provider
+
+Open `~/.vectorlint/config.toml` and uncomment the section for your preferred provider. VectorLint supports OpenAI, Anthropic, Gemini, and Azure.
+
+```toml
+[env]
+LLM_PROVIDER = "openai"
+OPENAI_API_KEY = "sk-..."
+```
+
+For Anthropic:
+
+```toml
+[env]
+LLM_PROVIDER = "anthropic"
+ANTHROPIC_API_KEY = "sk-ant-..."
+```
+
+<Tip>
+  You can also use a `.env` file in your project root. Project-level `.env` values take precedence over the global `config.toml`.
+</Tip>
+
+### Search provider (optional)
+
+Some evaluators — such as `TechnicalAccuracy` — verify facts against current external knowledge. To enable this, configure a search provider:
+
+```toml
+[env]
+SEARCH_PROVIDER = "perplexity"
+PERPLEXITY_API_KEY = "pplx-..."
+```
+
+---
+
+## Configure .vectorlint.ini
+
+The `.vectorlint.ini` file in your project root controls which rules run on which files.
+
+### Global settings
+
+```ini
+# Number of concurrent evaluations (default: 4)
+Concurrency = 4
+
+# Default severity for violations (default: warning)
+DefaultSeverity = warning
+
+# Path to your custom rules directory
+RulesPath = .github/rules
+```
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `RulesPath` | string | none | Root directory for custom rule packs. If omitted, only preset rules are used. |
+| `Concurrency` | integer | `4` | Number of concurrent evaluations to run. |
+| `DefaultSeverity` | string | `warning` | Default severity level: `warning` or `error`. |
+
+### File pattern sections
+
+Map glob patterns to rule packs to control what runs where:
+
+```ini
+# All Markdown files — run the "Acme" rule pack
+[**/*.md]
+RunRules = Acme
+
+# Technical docs — run Acme with stricter standards
+[content/docs/**/*.md]
+RunRules = Acme
+GrammarChecker.strictness = 9
+TechnicalAccuracy.threshold = 8.0
+
+# Marketing content — run a different pack
+[content/marketing/**/*.md]
+RunRules = TechCorp
+BrandVoice.strictness = 8
+
+# Drafts — skip all rules
+[content/drafts/**/*.md]
+RunRules =
+```
+
+### Cascading configuration
+
+VectorLint applies configuration from general to specific — similar to how CSS specificity works. All patterns that match a file are applied, with more specific patterns overriding general ones.
+
+```ini
+# General — applied first
+[**/*.md]
+RunRules = GeneralRules
+Grammar.strictness = 5
+
+# Specific — applied second, overrides the general setting above
+[content/docs/**/*.md]
+RunRules = TechDocs
+Grammar.strictness = 9
+```
+
+A file at `content/docs/api.md` would run both `GeneralRules` and `TechDocs`, with `Grammar.strictness` set to `9`.
+
+---
+
+## Strictness levels
+
+Strictness controls the penalty weight for error density in check rules. Use named levels or direct numeric values:
+
+| Value | Preset name | Penalty per 1% error density | Best for |
+|-------|-------------|------------------------------|----------|
+| 1–3 | `lenient` | ~5 points | Drafts |
+| 4–7 | `standard` | ~10 points | General content |
+| 8–10 | `strict` | ~20 points | Technical documentation |
+
+```ini
+[content/docs/**/*.md]
+RunRules = Acme
+GrammarChecker.strictness = strict
+TechnicalAccuracy.strictness = 20
+```
+
+---
+
+## Global style guide (VECTORLINT.md)
+
+Place a `VECTORLINT.md` file in your project root to define global style instructions that apply to every evaluation. VectorLint prepends its contents to the system prompt for every rule it runs.
+
+Keep this file concise. VectorLint emits a warning if the file exceeds approximately 4,000 tokens, as very large contexts can degrade performance and increase API costs.
+
+### Extract rules from an existing style guide
+
+If your team already has a style guide, use the following prompt with any capable LLM to convert it into a `VECTORLINT.md`-optimized file. Paste your full style guide after the prompt.
+
+```
+You are a technical writing rules extractor. Your job is to convert a
+full technical writing style guide into a compact VECTORLINT.md file
+suitable for use as a VectorLint global style guide.
+
+Rules for extraction:
+- Output imperative rules only. No explanations, rationale, or examples.
+- Group rules under short, plain-language headings.
+- Remove all tables, comparison columns, governing references, and
+  checklists — extract only the actionable rules they contain.
+- Remove any rule that is structural (document architecture, heading
+  levels) rather than evaluable at the sentence or paragraph level.
+- Use plain markdown bullets. No bold, no nested lists beyond one level.
+- Target output: under 600 words / ~800 tokens.
+- Do not include a preamble or closing statement.
+
+Style guide to extract from:
+[PASTE YOUR STYLE GUIDE HERE]
+```
+
+<Tip>
+  Target your `VECTORLINT.md` file at under 800 tokens. This leaves room for rule-specific prompts without approaching the warning threshold.
+</Tip>
+
+To help you get started, the VectorLint docs repository includes an [example VECTORLINT.md](https://github.com/taz-mon/vectorlint-docs/blob/main/VECTORLINT.md) covering common technical writing rules that you can copy and adapt.
+
+---
+
+## Tune false-positive filtering
+
+VectorLint's PAT pipeline filters raw model candidates before surfacing violations. You can adjust the confidence threshold:
+
+```bash
+CONFIDENCE_THRESHOLD=0.75
+```
+
+| Value | Effect |
+|-------|--------|
+| Lower (e.g. `0.5`) | More findings — higher recall, more noise |
+| Default (`0.75`) | Balanced precision and recall |
+| Higher (e.g. `0.9`) | Fewer findings — higher precision, fewer false positives |
+
+---
+
+## Run a check
+
+Once your provider is configured, run a check against any Markdown file:
+
+```bash
+vectorlint doc.md
+```
+
+VectorLint ships with a built-in preset containing rules for AI pattern detection and directness. The `init` command configures this automatically so you get useful output immediately.
+
+---
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Creating rules" icon="file-pen" href="/setup/creating-rules">
+    Write custom rules in Markdown to enforce your specific standards.
+  </Card>
+  <Card title="Rule packs" icon="layer-group" href="/setup/rule-packs">
+    Organize rules into packs and apply them across different content types.
+  </Card>
+</CardGroup>
