@@ -1,11 +1,11 @@
 # VectorLint example styling rules
 
-<!-- 
+{/* This file is prepended to the system prompt for every VectorLint evaluation 
   This file defines global style instructions for all VectorLint evaluations.
   VectorLint prepends its contents to the system prompt for every rule it runs.
   Keep this file under ~800 tokens to avoid performance and cost issues.
   Adapt the rules below to match your team's style guide.
--->
+*/}
 
 ## Voice and tone
 
