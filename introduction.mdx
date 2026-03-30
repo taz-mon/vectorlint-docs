@@ -49,7 +49,7 @@ VectorLint uses a PAT (Pay A Tax) evaluation pipeline to keep output precise:
 1. **Candidate generation** — the LLM returns all potential violations, each with required gate-check fields: rule support, exact evidence, context support, plausible non-violation, and fix quality.
 2. **Deterministic filtering** — VectorLint applies a strict filter and only surfaces violations that pass all required gates.
 
-CLI output is intentionally stricter than raw model candidates. You can tune the confidence gate with the `CONFIDENCE_THRESHOLD` environment variable (default: `0.75`). Lower values surface more findings; higher values surface fewer.
+VectorLint's output is intentionally stricter than raw model candidates — only findings that pass all gates are reported. You can tune how aggressively the pipeline filters findings to match your content workflow. See [Tuning evaluation precision](/false-positive-tuning).
 
 ## Next steps
 
