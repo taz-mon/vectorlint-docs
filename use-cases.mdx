@@ -3,7 +3,7 @@ title: Use cases
 description: Common ways teams use VectorLint to enforce content standards across documentation, marketing, and developer content.
 ---
 
-VectorLint fits anywhere a team publishes written content at scale and needs consistent, measurable quality. These are the most common starting points — each one describes the problem, the path through the tool, and what you get at the end.
+VectorLint fits anywhere a team publishes written content at scale and needs consistent, measurable quality. These are the most common starting points; each one describes a problem, the path through the tool, and what you get at the end:
 
 ## Enforce a style guide automatically
 
@@ -19,7 +19,7 @@ If your team has a detailed guide, see [Defining your style rules](/style-guide)
 
 ## Catch AI-generated writing patterns
 
-**The problem:** LLM-assisted writing is now standard, but it produces recognizable patterns — hollow openings, overused buzzwords ("leverage," "unlock," "elevate"), formulaic transitions, and excessive hedging. These patterns erode reader trust before anyone notices what's happening.
+**The problem:** Large language model (LLM)-assisted writing is now standard, but it produces recognizable patterns, such as hollow openings, overused buzzwords ("leverage," "unlock," "elevate"), formulaic transitions, and excessive hedging. These patterns erode reader trust before anyone notices what's happening.
 
 **The path:** VectorLint's built-in AI Pattern Detector rule flags these patterns before they reach readers. Add it to your rule pack for customer-facing content and tune the strictness level to match your team's voice — stricter for published docs, more lenient for internal drafts.
 
@@ -31,7 +31,7 @@ For content-specific tuning, see [Customizing style rules](/customize-style-rule
 
 ## Verify technical accuracy
 
-**The problem:** Outdated version numbers, deprecated API references, and incorrect command syntax are the hardest category of errors to catch in manual review — because catching them requires domain expertise the reviewer may not have.
+**The problem:** Outdated version numbers, deprecated API references, and incorrect command syntax are difficult category of errors to catch in manual review, because catching them requires domain expertise your reviewers may not have.
 
 **The path:** The `technical-accuracy` evaluator uses a search provider to check factual claims in your content against current external sources. Point it at your API reference pages or CLI documentation and it surfaces stale information before it ships.
 
@@ -43,7 +43,7 @@ See [Defining your style rules](/style-guide) for how to configure a `technical-
 
 ## Gate content quality in CI
 
-**The problem:** Quality checks that run manually get skipped. Content that fails a review on Monday is merged by Friday because the pipeline doesn't enforce it.
+**The problem:** Teams can skip manual quality checks because the pipeline doesn't enforce it.
 
 **The path:** VectorLint exits with a non-zero status code on violations, making it a natural CI gate. Add it as a pre-merge step so content that falls below your quality threshold never reaches production.
 

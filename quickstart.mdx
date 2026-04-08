@@ -1,15 +1,15 @@
 ---
 title: Quickstart
-description: Install VectorLint, configure your LLM provider, and run your first content check in under ten minutes.
+description: Install VectorLint, configure your LLM provider, and run your first content check.
 ---
 
-This page walks you through the shortest path to a working VectorLint evaluation. By the end, you will have installed VectorLint, connected an LLM provider, and seen real output on a file you own.
+Set up VectorLint and run your first content evaluation in under ten minutes. You install VectorLint, add your style instructions, connect an LLM (Large Language Model) provider, and see real output on a file you own.
 
 ## Before you begin
 
 VectorLint requires Node.js 18 or later. Node.js 22 LTS is recommended. If you need to install or update Node.js, use [nvm](https://github.com/nvm-sh/nvm) or download directly from [nodejs.org](https://nodejs.org).
 
-You will also need an API key for a supported LLM provider. VectorLint sends your content to the provider you configure for evaluation. Supported providers: OpenAI, Anthropic, Google Gemini, Azure OpenAI, Amazon Bedrock.
+You will also need an API key for a supported LLM provider. VectorLint sends your content to the provider you configure for evaluation. Supported providers include: OpenAI, Anthropic, Google Gemini, Azure OpenAI, Amazon Bedrock.
 
 <Warning>
 VectorLint requires a configured LLM provider to produce output. Installing the package alone is not enough — if you skip provider configuration, running `vectorlint` against a file will return no results and no error. Complete Step 2 before running a check.
@@ -61,7 +61,7 @@ You can also set provider values in a `.env` file in your project root. Project-
 
 ## Step 3: Create your VECTORLINT.md
 
-`VECTORLINT.md` is the zero-config path into VectorLint. Place this file in your project root and write your style standards as plain-language instructions. VectorLint detects it automatically, builds a "Style Guide Compliance" rule from its contents, and applies it to every evaluation — no rule pack files or `.vectorlint.ini` required.
+After you initialize VectorLint in your repository, the application generates a VECTORLINT.md file in your project root. After you copy your style standards as plain-language instructions into the file, VectorLint builds a "Style Guide Compliance" rule and applies it to your VectorLint evaluations.
 
 Run the quick-init command to create the file:
 
@@ -91,7 +91,7 @@ Then open `VECTORLINT.md` and add your standards. A few clear instructions are e
 - Spell out acronyms on first use.
 ```
 
-You don't need a comprehensive style guide to start. Add rules incrementally as you learn what VectorLint flags and misses.
+You don't need a comprehensive style guide to start. Add rules incrementally as you learn what your rules catch and what they miss.
 
 ---
 
@@ -103,7 +103,7 @@ Point VectorLint at any Markdown file in your project:
 vectorlint path/to/doc.md
 ```
 
-VectorLint reads your `VECTORLINT.md`, evaluates the file against it, and prints findings in your terminal. A clean file produces no output and exits with status `0`. A file with violations prints each finding with its location and a suggested fix.
+VectorLint reads your `VECTORLINT.md`, evaluates the file against it, and prints findings in your terminal. If the file is clean, VectorLint produces no output and exits with status `0`. If the file has violations, VectorLint prints each finding with its location and a suggested fix.
 
 ---
 

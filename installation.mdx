@@ -8,7 +8,7 @@ description: Install VectorLint globally or run it with npx. Covers Node.js requ
 VectorLint requires Node.js 18 or later. Node.js 22 LTS is recommended. If you need to install or update Node.js, use [nvm](https://github.com/nvm-sh/nvm) (recommended) or download directly from [nodejs.org](https://nodejs.org).
 
 <Warning>
-Installing VectorLint makes the CLI available, but the tool requires a configured LLM provider to evaluate content. If you run `vectorlint` against a file before completing provider configuration, you will get no output and no error. After installing, complete [Configuring LLM providers](/llm-providers) before running your first check.
+Installing VectorLint makes the CLI available, but the tool requires a configured LLM provider to evaluate content. If you run `vectorlint` against a file before completing provider configuration, you get no output and no error. After installing, complete [Configuring LLM providers](/llm-providers) before running your first check.
 </Warning>
 
 ---
@@ -41,7 +41,7 @@ Run VectorLint without installing it:
 npx vectorlint path/to/doc.md
 ```
 
-npx downloads and runs the latest version of VectorLint on demand. No installation or version management required. Use this option for one-off checks or to try VectorLint before committing to a global install.
+With this option, you don't need to install or manage versions, since `npx` downloads and runs the latest version of VectorLint on demand. Use this option for one-off checks or to try VectorLint before committing to a global install.
 
 If you use npx regularly, pin a specific version to avoid unexpected behavior when VectorLint releases updates:
 

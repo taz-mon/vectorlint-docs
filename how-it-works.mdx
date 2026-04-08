@@ -1,6 +1,6 @@
 ---
 title: How it works
-description: How VectorLint evaluates content using LLM-as-a-Judge, PAT filtering, and two scoring methods.
+description: How VectorLint evaluates content using LLM-as-a-Judge, filtering, and two scoring methods.
 ---
 
 VectorLint evaluates your content by sending it to a large language model (LLM) along with a structured prompt that defines your quality criteria. The LLM acts as a judge — reading your content, applying the criteria, and returning findings. VectorLint then filters those findings through a deterministic pipeline before surfacing violations in the CLI.
@@ -26,25 +26,22 @@ VectorLint sends your content to the configured LLM provider with each rule's pr
 
 Rules run concurrently up to the `Concurrency` limit set in `.vectorlint.ini`.
 
-### 3. PAT filtering
+### 3. Filtering
 
-Raw model output contains noise — potential violations that don't hold up under scrutiny. VectorLint applies the **PAT (Pay A Tax)** pipeline to filter candidates before surfacing them. Every candidate must pass a set of deterministic gate checks:
+Raw model output contains noise — potential violations that don't hold up under scrutiny. VectorLint reduces false positives through a two-phase filtering process:
 
-- **Rule support** — does the rule actually prohibit this?
-- **Exact evidence** — is the violation present verbatim in the content?
-- **Context support** — does surrounding context confirm the violation?
-- **Plausible non-violation** — could a reasonable reader disagree?
-- **Fix quality** — is a meaningful fix possible?
+1. **Candidate generation** — the model returns all potential violations, each tagged with required fields: rule support, exact evidence, context support, plausible non-violation, and fix quality.
+2. **Deterministic surfacing** — VectorLint applies a strict filter and only surfaces violations that pass all required gates.
 
-Only candidates that pass all gates appear in CLI output. This makes VectorLint's findings intentionally stricter than raw model output — fewer results, higher confidence.
+The CLI output is intentionally stricter than raw model candidates with fewer results and higher confidence.
 
-You can tune how aggressively the filter operates with `CONFIDENCE_THRESHOLD`. See [Configuring LLM providers](/llm-providers) for details.
+You can tune how aggressively the filter operates with `CONFIDENCE_THRESHOLD` (default: `0.75`). Lower values surface more findings with higher recall; higher values surface fewer findings with higher precision. See [Configuring LLM providers](/llm-providers) for details.
 
 ## Scoring
 
 VectorLint uses two scoring methods depending on the rule type.
 
-**Density-based scoring** (check rules) calculates error density — violations per 100 words — so a single error in a short document is weighted more heavily than the same error in a long one. This makes quality assessment fair across documents of any length.
+**Density-based scoring** (check rules) calculates error density, violations per 100 words. VectorLint weights a single error in a short document more heavily than the same error in a long one. This normalizes quality assessment across documents of any length.
 
 **Rubric-based scoring** (judge rules) normalizes the LLM's 1–4 rating to a 1–10 scale and computes a weighted average across all criteria. Criteria weights reflect your real-world priorities — technical accuracy might carry a weight of 40 while SEO carries a weight of 10.
 
